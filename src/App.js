@@ -23,52 +23,66 @@ const App = () => {
 
     const handleAddClick = (e) => {
         e.preventDefault();
-        const newPerson = { name: newName, number: newNumber };
 
-        // Shows an error if a field is empty.
-        if (newPerson.name === "" || newPerson.number === "") {
-            setError("true");
-            setMessage("Missing data");
-            setTimeout(() => {
-                setMessage(null);
-            }, 3000);
-        }
-        // If the name already exists, asks if user wants to update.
-        else if (!persons.every((person) => person.name !== newName)) {
-            const match = persons.find((i) => i.name === newPerson.name);
-            if (window.confirm("A phone number with this name already exists. Do you want to update the number?")) {
-                handleUpdate(match, newPerson);
-            }
-        }
-        // If the number already exists, asks if user wants to update.
-        else if (!persons.every((person) => person.number !== newNumber)) {
-            const match = persons.find((i) => i.number === newPerson.number);
-            if (window.confirm("This phone number is already assigned to a person. Do you want to update the name?")) {
-                handleUpdate(match, newPerson);
-            }
-        } else {
-            service
-                .create(newPerson)
-                .then(() => service.getAll())
-                .then((result) => {
-                    setPersons(result);
-                    setError(false);
-                    setMessage("Added " + newPerson.name);
+        service
+            .create({ name: newName, number: newNumber })
+            .then(() => service.getAll())
+            .then((result) => {
+                setPersons(result);
+                setError(false);
+                setMessage("Added " + newName);
+                setTimeout(() => {
+                    setMessage(null);
+                }, 3000);
+            })
+            .catch((err) => {
+                let errorMessage = err.response.data.errorMessage;
+
+                // If exact match exists
+                if (errorMessage === "Duplicate name. Duplicate number.") {
+                    errorMessage = "Identical entry already exists.";
+                }
+                // If the name already exists, asks if user wants to update.
+                else if (errorMessage === "Duplicate name.") {
+                    const match = persons.find((i) => i.name === newName);
+                    if (
+                        window.confirm(
+                            "A phone number with this name already exists. Do you want to update the number?"
+                        )
+                    ) {
+                        handleUpdate(match, { name: newName, number: newNumber });
+                        return;
+                    }
+                }
+                // If the number already exists, asks if user wants to update.
+                else if (errorMessage === "Duplicate number.") {
+                    const match = persons.find((i) => i.number === newNumber);
+                    if (
+                        window.confirm(
+                            "This phone number is already assigned to a person. Do you want to update the name?"
+                        )
+                    ) {
+                        handleUpdate(match, { name: newName, number: newNumber });
+                        return;
+                    }
+                } else {
+                    setError(true);
+                    setMessage(errorMessage);
                     setTimeout(() => {
                         setMessage(null);
                     }, 3000);
-                });
-        }
+                }
+            });
     };
 
-    const handleUpdate = (person, data) => {
+    const handleUpdate = (person, newData) => {
         service
-            .update(person.id, data)
+            .update(person.id, newData)
             .then(() => service.getAll())
             .then((res) => {
                 setPersons(res);
                 setError(false);
-                setMessage(`Updated: ${data.name} - ${data.number}`);
+                setMessage(`Update successful: ${newData.name} - ${newData.number}`);
                 setTimeout(() => {
                     setMessage(null);
                 }, 3000);
@@ -76,6 +90,9 @@ const App = () => {
             .catch(() => {
                 setError(true);
                 setMessage(person.name + " is already deleted.");
+                setTimeout(() => {
+                    setMessage(null);
+                }, 3000);
             });
     };
 

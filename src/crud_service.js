@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const url = "https://fso-puhelinluettelo-backend.herokuapp.com/api/persons";
-/* const url = "http://localhost:3001/api/persons"; */
+/* const url = "https://fso-puhelinluettelo-backend.herokuapp.com/api/persons"; */
+const url = "http://localhost:3001/api/persons";
 
 const getAll = () => {
     return axios.get(url).then((res) => res.data);
