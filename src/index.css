@@ -6,12 +6,12 @@ td {
     @apply px-3 py-1;
 }
 .input {
-    @apply p-1 border-2 rounded;
+    @apply my-2 p-1 border-2 rounded;
 }
 
 /* Buttons */
 .btn {
-    @apply my-4 p-2 shadow-lg rounded hover:bg-opacity-70;
+    @apply p-2 shadow-lg rounded hover:bg-opacity-70;
 }
 .primary {
     @apply btn bg-blue-500;
