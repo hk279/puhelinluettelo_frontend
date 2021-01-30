@@ -132,37 +132,39 @@ const App = () => {
 
     let notification;
     if (error) {
-        notification = <Notification type="error" message={message} />;
+        notification = <Notification error={true} message={message} />;
     } else {
-        notification = <Notification type="success" message={message} />;
+        notification = <Notification error={false} message={message} />;
     }
 
     return (
         <div>
-            <h2>Phonebook</h2>
-            {notification}
+            <h2 className="main-header">Phonebook</h2>
             <Search changeHandler={handleSearchChange} />
-            <h3>Add a new person</h3>
+            <h3 className="sub-header">Add a new person</h3>
             <Add
                 nameChangeHandler={handleNameChange}
                 numberChangeHandler={handleNumberChange}
                 clickHandler={handleAddClick}
             />
-            <h2>Numbers</h2>
-            {persons.map((person) => {
-                if (person.name.toLowerCase().includes(searchWord.toLowerCase())) {
-                    return (
-                        <Person
-                            key={person.name}
-                            name={person.name}
-                            number={person.number}
-                            clickHandler={() => handleDeleteClick(person.id)}
-                        />
-                    );
-                } else {
-                    return null;
-                }
-            })}
+            {notification}
+            <h2 className="sub-header">Numbers</h2>
+            <table className="m-4">
+                {persons.map((person) => {
+                    if (person.name.toLowerCase().includes(searchWord.toLowerCase())) {
+                        return (
+                            <Person
+                                key={person.name}
+                                name={person.name}
+                                number={person.number}
+                                clickHandler={() => handleDeleteClick(person.id)}
+                            />
+                        );
+                    } else {
+                        return null;
+                    }
+                })}
+            </table>
         </div>
     );
 };

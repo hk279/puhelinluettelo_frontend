@@ -2,8 +2,9 @@ import React from "react";
 
 const Search = ({ changeHandler }) => {
     return (
-        <div>
-            Filter: <input onChange={(e) => changeHandler(e)} />
+        <div className="m-4">
+            <p>Search:</p>
+            <input className="input" onChange={(e) => changeHandler(e)} />
         </div>
     );
 };

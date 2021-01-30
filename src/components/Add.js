@@ -2,17 +2,17 @@ import React from "react";
 
 export const Add = ({ nameChangeHandler, numberChangeHandler, clickHandler }) => {
     return (
-        <div>
+        <div className={"m-4"}>
             <form onSubmit={(e) => clickHandler(e)}>
-                <div className="input-line">
+                <div>
                     <p>Name:</p>
-                    <input onChange={(e) => nameChangeHandler(e)} />
+                    <input className="input" onChange={(e) => nameChangeHandler(e)} />
                 </div>
-                <div className="input-line">
+                <div>
                     <p>Number:</p>
-                    <input onChange={(e) => numberChangeHandler(e)} />
+                    <input className="input" onChange={(e) => numberChangeHandler(e)} />
                 </div>
-                <button className="add-button" type="submit">
+                <button className="primary" type="submit">
                     Add
                 </button>
             </form>

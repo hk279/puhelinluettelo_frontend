@@ -1,11 +1,40 @@
-body {
-    margin: 2em;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-        "Droid Sans", "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+td {
+    @apply px-3 py-1;
+}
+.input {
+    @apply p-1 border-2 rounded;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+/* Buttons */
+.btn {
+    @apply my-4 p-2 shadow-lg rounded hover:bg-opacity-70;
+}
+.primary {
+    @apply btn bg-blue-500;
+}
+.danger {
+    @apply btn bg-red-500;
+}
+
+/* Headers */
+.main-header {
+    @apply m-4 text-xl font-bold;
+}
+.sub-header {
+    @apply mx-4 text-lg font-bold;
+}
+
+/* Notifications */
+.notification {
+    @apply m-4 p-4 font-bold border-2 w-max;
+}
+.error {
+    @apply notification bg-red-300 border-red-500;
+}
+.success {
+    @apply notification bg-green-300 border-green-500;
 }
